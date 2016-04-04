@@ -25,8 +25,9 @@ Please provide samples of runs with sufficient data.
 Check in code and data into Github and provide us the link.
 Provide enough instructions to build and run the code ourselves. 
 */
+var mat;
 
-function getIPRange( a)
+function getIPRange(a)
 {
     asplit=a.split("/");
     if (asplit.length==2){
@@ -57,7 +58,7 @@ function getIPRange( a)
     }
 }
 
-function checkRelation(ipRange,actualIP){
+function checkRelation1(ipRange,actualIP){
     var chkIP=actualIP.split(".");
     var i=0,count=0;
     for (var k=0 in chkIP){
@@ -71,29 +72,103 @@ function checkRelation(ipRange,actualIP){
     
 }
 
+function lessThan(ip1,ip2){
+    var IP1=ip1;//.split(".");    
+    var IP2=ip2;//.split("."); 
+    var k=0,count=0;
+    while (k<4){
+        //console.log(chkIP[k],ipRange[0][i],ipRange[1][i]);
+        if (parseInt(IP1[k])<parseInt(IP2[k]) ){
+            count++;k++;
+        }else return false;
+    }
+    if(count===4) return true;  
+    else return false;
+}
+
+function lessThanEquals(ip1,ip2){
+    var IP1=ip1;//.split(".");    
+    var IP2=ip2;//.split("."); 
+    var k=0,count=0;
+    while (k<4){
+        //console.log(chkIP[k],ipRange[0][i],ipRange[1][i]);
+        if (parseInt(IP1[k])<=parseInt(IP2[k]) ){
+            count++;k++;
+        }else break;
+    }
+    if(count===4) return true;  
+    else return false;
+}
+
+function checkRelation(ipRange1,ipRange2){
+    console.log("for cidrs");
+    console.log(ipRange1[0],ipRange1[1],ipRange2[0],ipRange2[1]);
+    //Check all cases for the relation between the 2 ranges 
+    if (lessThanEquals(ipRange1[0],ipRange2[0]) && lessThanEquals(ipRange2[1],ipRange1[1])){
+        //CIDR1 contains CIDR2
+        console.log("CIDR1 contains CIDR2");
+    }
+    else if(lessThanEquals(ipRange2[0],ipRange1[0]) && lessThanEquals(ipRange1[1],ipRange2[1])){
+        //CIDR2 contains CIDR1
+        console.log("CIDR2 contains CIDR1");
+    }
+    else if(lessThan(ipRange2[0],ipRange1[0]) && lessThan(ipRange2[1],ipRange1[1])){
+        
+        if(lessThan(ipRange1[0],ipRange2[1])){
+            console.log("CIDR1 intersects CIDR2");
+            //CIDR2 intersects CIDR1
+        }else{
+            //None or Adjacent
+            var c=0;
+            for(var i=0;i<3;i++){
+            if(parseInt(ipRange1[0][i])===parseInt(ipRange2[1][i])) c++;
+            }
+            if((c===3) && (parseInt(ipRange1[0][i])===(parseInt(ipRange2[1][i])+1))) {//adjacent
+                console.log("adjacent CIDR2+1 = CIDR1");            
+            }
+            else{ //None
+                console.log("NONE 1");            
+            }
+        }
+    }
+    else if(lessThan(ipRange1[0],ipRange2[0]) && lessThan(ipRange1[1],ipRange2[1])){
+        
+        if(lessThan(ipRange2[0],ipRange1[1])){
+            //CIDR2 intersects CIDR1
+            console.log("CIDR2 intersects CIDR1 ----");
+        }else{
+            //None or Adjacent            
+            var c=0;
+            for(var i=0;i<3;i++){
+            if(parseInt(ipRange2[0][i])===parseInt(ipRange1[1][i])) c++;
+            }
+            if((c===3) && (parseInt(ipRange2[0][i])===(parseInt(ipRange1[1][i])+1))) {//adjacent
+                console.log("adjacent CIDR1+1 = CIDR2");            
+            }
+            else{ //None
+                console.log("NONE 2");            
+            }            
+        }
+    }
+    
+}
+
 function compareCIDR(cidr1,cidr2){
 var ip1=[],ip2=[];
 var actualIP1=cidr1.split("/")[0];
 var actualIP2=cidr2.split("/")[0];
-ip1=getIPRange(cidr1);
-ip2=getIPRange(cidr2); 
-console.log(ip1[0],ip1[1]);
-console.log(ip2[0],ip2[1]); 
-if (checkRelation(ip1,actualIP2)===true){
-    console.log("ip2 in cidr1");
-}
-else{
-    console.log("ip2 not in cidr1");
-}
-if (checkRelation(ip2,actualIP1)===true){
-console.log("ip1 in cidr2");
-}
-else{
-    console.log("ip1 not in cidr2");
-}
+ipRange1=getIPRange(cidr1);
+ipRange2=getIPRange(cidr2); 
+//console.log(ipRange1[0],ipRange1[1]);
+//console.log(ipRange2[0],ipRange2[1]); 
+checkRelation(ipRange1,ipRange2);
 }
 
 function getSetRelation(){
+mat=new Array(2);
+for (var i = 0; i < 2; i++) {
+  mat[i] = new Array(3);
+}
 var set1=new Set(["10.10.0.0/16", "10.20.0.0/16", "192.168.5.0/24"]);
 var set2=new Set(["10.0.0.0/8","192.168.5.127/25"]);
 for (var cidr1 of set1){
