@@ -123,9 +123,4 @@ function getSetRelation(list1,list2){
     
 }
 
-l2=["10.0.0.0/8","192.168.5.127/25"];
-l1=["10.10.0.0/16", "10.20.0.0/16", "192.168.5.0/24"];
-console.log("\n--------------------CIDR SIMILARITY------------------------\n");
-console.log("SET1: ",l1);
-console.log("SET2: ",l2);
 getSetRelation(l1,l2);
