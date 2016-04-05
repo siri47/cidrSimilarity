@@ -16,6 +16,7 @@ Once the comparison is finished, the mxn matrix is updated to hold the values "c
 For sets [A,B,C] and [D,E], the following output means  'A contains D','B contains D','C and D have no relation', 'A and E have no relation', 'B and E have no relation', 'C is contained in E' or 'E contains C'.
 
 [ [ 'contains', 'contains', 'none' ],
+
   [ 'none', 'none', 'contained in' ] ]
 
 Steps to run
