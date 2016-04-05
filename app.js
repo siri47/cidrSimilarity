@@ -4,25 +4,27 @@ function getIPRange(a)
 {
     asplit=a.split("/");
     if (asplit.length==2){
+        num=parseInt(asplit[1]);
         pow=32-asplit[1];
         fields=asplit[0].split(".");
-        i=3;
-        p=pow;
-        q=parseInt(pow/8);
-        r=pow%8;
-        var low=Object.assign([],fields),high=Object.assign([],fields);
-        while(q>=0 && pow!==0){
-        if (q===0 || pow===8)   ex=pow;
-        else if (q>=1 || pow!==8) ex=8;
-
-            low[i]=parseInt(fields[i]);
-            high[i]=parseInt(fields[i])+Math.pow(2,ex)-1;
-        pow-=8;
-        i--;
-        q--;
+        var k=0,ip=[];
+        p=parseInt(pow);
+        for (var i in fields){
+        ip.push(parseInt(fields[i]));
         }
-        return [low,high];            
-        
+        var wildcard=[0,0,0,0];
+        while(k<num){
+            wildcard[parseInt(k/8)]=wildcard[parseInt(k/8)]+(1 << (7 - k % 8));
+            k++;
+        }
+        var low=[ip[0]&wildcard[0],ip[1]&wildcard[1],ip[2]&wildcard[2],ip[3]&wildcard[3]]; 
+        high=low.slice(0);
+        k=0;
+        while(k<p){
+            high[3-parseInt(k/8)]=high[3-parseInt(k/8)]+(1 << (k % 8));
+            k++;
+        }        
+        return [low,high];                  
     }
 }
 
@@ -31,9 +33,9 @@ function lessThan(ip1,ip2){
     var IP2=ip2;
     var k=0,count=0;
     while (k<4){
-        if (parseInt(IP1[k])==parseInt(IP2[k]) ){
+        if ((IP1[k])==(IP2[k]) ){
             count++;k++;
-        }else if(parseInt(IP1[k])<parseInt(IP2[k]) ) return true;
+        }else if((IP1[k])<(IP2[k]) ) return true;
         else return false;
     }
     if(count>=1) return true;  
@@ -59,9 +61,9 @@ function checkRelation(ipRange1,ipRange2){
             //None or Adjacent
             var c=0;
             for(var i=0;i<3;i++){
-            if(parseInt(ipRange1[0][i])===parseInt(ipRange2[1][i])) c++;
+            if((ipRange1[0][i])===(ipRange2[1][i])) c++;
             }
-            if((c===3) && (parseInt(ipRange1[0][i])===(parseInt(ipRange2[1][i])+1))) {//adjacent
+            if((c===3) && ((ipRange1[0][i])===((ipRange2[1][i])+1))) {//adjacent
                 return "adjacent";
             }
             else{ //None
@@ -79,9 +81,9 @@ function checkRelation(ipRange1,ipRange2){
             //None or Adjacent
             var c=0;
             for(var i=0;i<3;i++){
-            if(parseInt(ipRange2[0][i])===parseInt(ipRange1[1][i])) c++;
+            if((ipRange2[0][i])===(ipRange1[1][i])) c++;
             }
-            if((c===3) && (parseInt(ipRange2[0][i])===(parseInt(ipRange1[1][i])+1))) {//adjacent
+            if((c===3) && ((ipRange2[0][i])===((ipRange1[1][i])+1))) {//adjacent
                 return "adjacent";
             }
             else{ //None
@@ -120,9 +122,9 @@ function getSetRelation(list1,list2){
     console.log("\n");
     
 }
-    
-l1=["10.0.0.0/8","192.168.5.127/25"];
-l2=["10.10.0.0/16", "10.20.0.0/16", "192.168.5.0/24"];
+
+l2=["10.0.0.0/8","192.168.5.127/25"];
+l1=["10.10.0.0/16", "10.20.0.0/16", "192.168.5.0/24"];
 console.log("\n--------------------CIDR SIMILARITY------------------------\n");
 console.log("SET1: ",l1);
 console.log("SET2: ",l2);

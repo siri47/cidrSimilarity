@@ -1,7 +1,11 @@
 Problem statement:
 
 Similarity Exercise
+
+
 Overview
+
+
 Use a programming language of your choice to implement a data analysis algorithm.
 We realize that doing this assignment may require you to learn new technologies. A lot of what our team does on a daily basis involves learning new technologies, concepts and techniques and applying them to our product. This assignment is designed to demonstrate that you can write code that performs analysis on a well defined set of data. Do your best and don’t give up.
 
