@@ -14,6 +14,7 @@ An IP range is obtained from both the CIDRs that need to be compared.
 Once the comparison is finished, the mxn matrix is updated to hold the values "contains","contained in","intersect","none" or "adjacent". Where m and n is the number of elements in set1 and set2 respectively. 
 
 For sets [A,B,C] and [D,E], the following output means  'A contains D','B contains D','C and D have no relation', 'A and E have no relation', 'B and E have no relation', 'C is contained in E' or 'E contains C'.
+
 [ [ 'contains', 'contains', 'none' ],
   [ 'none', 'none', 'contained in' ] ]
 
