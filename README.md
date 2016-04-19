@@ -3,7 +3,9 @@ CIDR Set Relation
 
    The CIDRs in the given 2 sets are compared for similarity. 
 
-
+   https://cdn.rawgit.com/ranji2612/cidrSimilarity/master/index.html
+   
+   
 Approach
 ==============================
 
@@ -21,7 +23,9 @@ For sets [A,B,C] and [D,E], the following output means  'A contains D','B contai
 
 Steps to run
 ==============================
-1. See the live demo here: https://jsfiddle.net/3w5kwocg/4/
+1. See the live demo here: https://cdn.rawgit.com/ranji2612/cidrSimilarity/master/index.html
+                           https://jsfiddle.net/3w5kwocg/4/
+                         
 2. Copy-paste the entire app.js code in https://repl.it/languages/javascript 
 and call it : getSetRelation(list1,list2)
 for example, getSetRelation(["10.0.0.0/8","192.168.5.127/25"],["10.10.0.0/16", "10.20.0.0/16", "192.168.5.0/24"]) to compare the 2 lists ["10.0.0.0/8","192.168.5.127/25"] and ["10.10.0.0/16", "10.20.0.0/16", "192.168.5.0/24"].
